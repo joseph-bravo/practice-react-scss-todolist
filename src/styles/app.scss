@@ -1,0 +1,74 @@
+@import url('./reset.scss');
+
+$background: hsl(228, 22%, 95%);
+
+body {
+  background: $background;
+}
+
+header {
+  padding: 2rem;
+
+  h1 {
+    text-align: center;
+    font-size: 4rem;
+    font-weight: 100;
+  }
+}
+
+main {
+  background: white;
+  padding: 3rem 2rem;
+  border-radius: 1rem;
+  margin: auto;
+  max-width: 640px;
+
+  input {
+    display: block;
+    width: 100%;
+    padding: 1rem;
+    border: none;
+    font-size: large;
+    background: $background;
+  }
+
+  ul {
+    display: flex;
+    flex-direction: column;
+    padding: 2rem 0;
+    li {
+      display: block;
+      outline: 2px solid $background;
+      padding: 1rem;
+
+      button.toggle {
+        all: unset;
+        font-size: larger;
+        cursor: pointer;
+        &:hover {
+          transform: translateY(1px);
+        }
+      }
+
+      .content {
+        padding-left: 1rem;
+        &.done {
+          color: gray;
+          text-decoration: line-through;
+        }
+      }
+    }
+  }
+
+  .list-footer {
+    display: flex;
+    justify-content: space-between;
+    .clear-completed {
+      all: unset;
+      cursor: pointer;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}
