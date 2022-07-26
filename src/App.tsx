@@ -1,23 +1,21 @@
-import { ChangeEvent, FormEvent, useState } from 'react';
+import { FormEvent, useState } from 'react';
 
-type Todo = {
+interface Todo {
   content: string;
   done: boolean;
-  id: number;
-};
+  id?: number;
+}
+
+let nextId: number = 0;
+
+let initialTodos: object[] = [
+  { content: 'first task ever', done: false },
+  { content: 'second task ever', done: true },
+  { content: 'third task ever', done: false }
+];
 
 export function App() {
-  const [tasks, setTasks] = useState([
-    { content: 'first task ever', done: false, id: 0 },
-    { content: 'second task ever', done: true, id: 1 },
-    { content: 'third task ever', done: false, id: 2 }
-  ] as Todo[]);
-
-  const [nextId, setNextId] = useState(3);
-  const getNextId = () => {
-    setNextId(nextId + 1);
-    return nextId;
-  };
+  const [tasks, setTasks] = useState([] as Todo[]);
 
   const formDefault = {
     content: ''
@@ -32,7 +30,7 @@ export function App() {
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
     const { content } = formInput;
-    setTasks([...tasks, { content, done: false, id: getNextId() }]);
+    setTasks([...tasks, { content, done: false, id: nextId++ }]);
     setFormInput(formDefault);
   };
 

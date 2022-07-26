@@ -45,7 +45,7 @@ main {
         all: unset;
         font-size: larger;
         cursor: pointer;
-        &:hover {
+        &:active {
           transform: translateY(1px);
         }
       }
