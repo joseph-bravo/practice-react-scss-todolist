@@ -10,41 +10,43 @@ header {
   padding: 2rem;
 
   h1 {
-    text-align: center;
     font-size: 4rem;
     font-weight: 100;
+    text-align: center;
   }
 }
 
 main {
-  background: white;
+  max-width: 640px;
+  margin: auto;
   padding: 3rem 2rem;
   border-radius: 1rem;
-  margin: auto;
-  max-width: 640px;
+  background: white;
 
   input {
     display: block;
     width: 100%;
     padding: 1rem;
     border: none;
-    font-size: large;
     background: $background;
+    font-size: large;
   }
 
   ul {
     display: flex;
     flex-direction: column;
     padding: 2rem 0;
+
     li {
       display: block;
-      outline: 2px solid $background;
       padding: 1rem;
+      outline: 2px solid $background;
 
       button.toggle {
         all: unset;
         font-size: larger;
         cursor: pointer;
+
         &:active {
           transform: translateY(1px);
         }
@@ -52,6 +54,7 @@ main {
 
       .content {
         padding-left: 1rem;
+
         &.done {
           color: gray;
           text-decoration: line-through;
@@ -63,9 +66,11 @@ main {
   .list-footer {
     display: flex;
     justify-content: space-between;
+
     .clear-completed {
       all: unset;
       cursor: pointer;
+
       &:hover {
         text-decoration: underline;
       }
