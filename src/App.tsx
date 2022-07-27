@@ -1,5 +1,6 @@
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
+const localStorageKey = 'focus360challenge';
 
 interface Todo {
   content: string;
@@ -9,14 +10,24 @@ interface Todo {
 
 type TodosView = 'all' | 'active' | 'completed';
 
-let initialTodos: object[] = [
+const initialTodos: object[] = [
   { content: 'first task ever', done: false },
   { content: 'second task ever', done: true },
   { content: 'third task ever', done: false }
 ];
 
+function initializeTodo(todo: object) {
+  return { ...todo, id: uuidv4() };
+}
+
+const jsondata = window.localStorage.getItem(localStorageKey);
+let data = JSON.parse(jsondata);
+if (!data) {
+  data = initialTodos.map(e => initializeTodo(e));
+}
+
 export function App() {
-  const [tasks, setTasks] = useState([] as Todo[]);
+  const [tasks, setTasks] = useState(data as Todo[]);
   const getCompletedTasks = () =>
     tasks.reduce((count: number, task) => {
       if (task.done) return count + 1;
@@ -75,6 +86,10 @@ export function App() {
     const newTaskList = tasks.filter(e => e.done === false);
     setTasks(newTaskList);
   };
+
+  useEffect(() => {
+    window.localStorage.setItem(localStorageKey, JSON.stringify(tasks));
+  }, [tasks]);
 
   return (
     <>
