@@ -1,6 +1,6 @@
 import { FormEvent, useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-const localStorageKey = 'focus360challenge';
+const localStorageKey = 'focus360challenge-tasks';
 
 interface Todo {
   content: string;
