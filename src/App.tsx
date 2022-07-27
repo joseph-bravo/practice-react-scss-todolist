@@ -1,4 +1,4 @@
-import { FormEvent, useEffect, useState } from 'react';
+import { ComponentPropsWithRef, FormEvent, useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 const localStorageKey = 'focus360challenge-tasks';
 
@@ -23,7 +23,34 @@ function initializeTodo(todo: object) {
 const jsondata = window.localStorage.getItem(localStorageKey);
 let data = JSON.parse(jsondata);
 if (!data) {
+  console.log('No local data found. Initializing dummy data.');
   data = initialTodos.map(e => initializeTodo(e));
+}
+
+type ListItemProps = {};
+
+function ListItem({
+  todo: { id, done, content },
+  toggleTask,
+  deleteTask
+}: {
+  todo: Todo;
+  toggleTask: Function;
+  deleteTask: Function;
+}) {
+  return (
+    <li key={id}>
+      <button className="toggle" onClick={() => toggleTask(id)}>
+        <i
+          className={`fa-regular ${done ? 'fa-circle-check' : 'fa-circle'}`}
+        ></i>
+      </button>
+      <span className={`content ${done ? 'done' : ''}`}>{content}</span>
+      <button className="delete" onClick={() => deleteTask(id)}>
+        <i className="fa-solid fa-trash-can"></i>
+      </button>
+    </li>
+  );
 }
 
 export function App() {
@@ -110,22 +137,12 @@ export function App() {
           </form>
           <ul>
             {getFilteredTasks().length > 0 ? (
-              getFilteredTasks().map(({ id, ...e }) => (
-                <li key={id}>
-                  <button className="toggle" onClick={() => toggleTask(id)}>
-                    <i
-                      className={`fa-regular ${
-                        e.done ? 'fa-circle-check' : 'fa-circle'
-                      }`}
-                    ></i>
-                  </button>
-                  <span className={`content ${e.done ? 'done' : ''}`}>
-                    {e.content}
-                  </span>
-                  <button className="delete" onClick={() => deleteTask(id)}>
-                    <i className="fa-solid fa-trash-can"></i>
-                  </button>
-                </li>
+              getFilteredTasks().map(todo => (
+                <ListItem
+                  todo={todo}
+                  toggleTask={toggleTask}
+                  deleteTask={deleteTask}
+                ></ListItem>
               ))
             ) : (
               <li className="placeholder-todo">There's nothing here...</li>
