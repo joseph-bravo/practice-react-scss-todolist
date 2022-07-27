@@ -43,7 +43,8 @@ main {
     padding: 2rem 0;
 
     li {
-      display: block;
+      display: flex;
+      align-items: center;
       padding: 0.5rem;
       outline: 2px solid $background;
 
@@ -57,10 +58,20 @@ main {
       }
 
       .content {
+        flex: auto;
         padding-left: 0.5rem;
         &.done {
           color: gray;
           text-decoration: line-through;
+        }
+      }
+
+      button.delete {
+        padding: 0.5rem;
+        font-size: larger;
+
+        &:active {
+          transform: translateY(1px);
         }
       }
     }

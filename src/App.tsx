@@ -39,7 +39,7 @@ export function App() {
   };
 
   const toggleTask = (id: string) => {
-    const newTaskList = [...tasks].map(e => {
+    const newTaskList = tasks.map(e => {
       if (e.id === id) {
         return {
           ...e,
@@ -48,6 +48,11 @@ export function App() {
       }
       return e;
     });
+    setTasks(newTaskList);
+  };
+
+  const deleteTask = (id: string) => {
+    const newTaskList = tasks.filter(e => e.id !== id);
     setTasks(newTaskList);
   };
 
@@ -80,6 +85,9 @@ export function App() {
               <span className={`content ${e.done ? 'done' : ''}`}>
                 {e.content}
               </span>
+              <button className="delete" onClick={() => deleteTask(id)}>
+                <i className="fa-solid fa-trash-can"></i>
+              </button>
             </li>
           ))}
         </ul>
