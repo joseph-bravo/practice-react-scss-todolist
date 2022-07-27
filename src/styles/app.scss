@@ -21,99 +21,101 @@ header {
     text-align: center;
   }
 }
-
 main {
-  max-width: 640px;
-  margin: auto;
-  padding: 3rem 2rem;
-  border-radius: 1rem;
-  background: white;
+  padding: 1rem 1rem 4rem;
+  .main-card {
+    max-width: 640px;
+    margin: auto;
+    padding: 3rem 2rem;
+    border-radius: 1rem;
+    background: white;
 
-  input {
-    display: block;
-    width: 100%;
-    padding: 1rem;
-    border: none;
-    background: $background;
-    font-size: large;
-  }
+    input {
+      display: block;
+      width: 100%;
+      padding: 1rem;
+      border: none;
+      background: $background;
+      font-size: large;
+    }
 
-  ul {
-    display: flex;
-    flex-direction: column;
-    padding: 2rem 0;
-
-    li {
+    ul {
       display: flex;
+      flex-direction: column;
+      padding: 2rem 0;
+
+      li {
+        display: flex;
+        align-items: center;
+        padding: 0.5rem;
+        outline: 2px solid $background;
+
+        button.toggle {
+          padding: 0.5rem;
+          font-size: larger;
+
+          &:active {
+            transform: translateY(1px);
+          }
+        }
+
+        .content {
+          flex: auto;
+          padding-left: 0.5rem;
+          &.done {
+            color: gray;
+            text-decoration: line-through;
+          }
+        }
+
+        button.delete {
+          padding: 0.5rem;
+          font-size: larger;
+
+          &:active {
+            transform: translateY(1px);
+          }
+        }
+
+        &.placeholder-todo {
+          padding: 1rem;
+        }
+      }
+    }
+
+    .list-footer {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
       align-items: center;
-      padding: 0.5rem;
-      outline: 2px solid $background;
+      justify-items: center;
+      padding: 2rem 0 0;
+      border-top: $background solid 2px;
 
-      button.toggle {
-        padding: 0.5rem;
-        font-size: larger;
-
-        &:active {
-          transform: translateY(1px);
+      .filter {
+        display: flex;
+        button {
+          padding: 0.5rem;
+          border: $background solid 2px;
+          &.selected {
+            border: black solid 2px;
+          }
         }
       }
 
-      .content {
-        flex: auto;
-        padding-left: 0.5rem;
-        &.done {
-          color: gray;
-          text-decoration: line-through;
+      .clear-completed {
+        cursor: pointer;
+
+        &:hover {
+          text-decoration: underline;
         }
       }
 
-      button.delete {
-        padding: 0.5rem;
-        font-size: larger;
-
-        &:active {
-          transform: translateY(1px);
-        }
+      > :first-child {
+        justify-self: left;
       }
-
-      &.placeholder-todo {
-        padding: 1rem;
+      > :last-child {
+        justify-self: end;
       }
-    }
-  }
-
-  .list-footer {
-    display: grid;
-    grid-template-columns: 1fr auto 1fr;
-    align-items: center;
-    justify-items: center;
-    padding: 2rem 0 0;
-    border-top: $background solid 2px;
-
-    .filter {
-      display: flex;
-      button {
-        padding: 0.5rem;
-        border: $background solid 2px;
-        &.selected {
-          border: black solid 2px;
-        }
-      }
-    }
-
-    .clear-completed {
-      cursor: pointer;
-
-      &:hover {
-        text-decoration: underline;
-      }
-    }
-
-    > :first-child {
-      justify-self: left;
-    }
-    > :last-child {
-      justify-self: end;
     }
   }
 }

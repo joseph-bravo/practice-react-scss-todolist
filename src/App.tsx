@@ -97,69 +97,73 @@ export function App() {
         <h1>todo list</h1>
       </header>
       <main>
-        <form onSubmit={handleSubmit}>
-          <input
-            required
-            type="text"
-            value={formInput.content}
-            onChange={handleFormInputChange}
-            name="content"
-            placeholder="What needs to be done?"
-          />
-        </form>
-        <ul>
-          {getFilteredTasks().length > 0 ? (
-            getFilteredTasks().map(({ id, ...e }) => (
-              <li key={id}>
-                <button className="toggle" onClick={() => toggleTask(id)}>
-                  <i
-                    className={`fa-regular ${
-                      e.done ? 'fa-circle-check' : 'fa-circle'
-                    }`}
-                  ></i>
-                </button>
-                <span className={`content ${e.done ? 'done' : ''}`}>
-                  {e.content}
-                </span>
-                <button className="delete" onClick={() => deleteTask(id)}>
-                  <i className="fa-solid fa-trash-can"></i>
-                </button>
-              </li>
-            ))
-          ) : (
-            <li className="placeholder-todo">There's nothing here...</li>
-          )}
-        </ul>
-        <div className="list-footer">
-          <div className="remaining-count">
-            {tasks.length - getCompletedTasks()} task
-            {tasks.length - getCompletedTasks() === 1 ? '' : 's'} left
+        <div className="main-card">
+          <form onSubmit={handleSubmit}>
+            <input
+              required
+              type="text"
+              value={formInput.content}
+              onChange={handleFormInputChange}
+              name="content"
+              placeholder="What needs to be done?"
+            />
+          </form>
+          <ul>
+            {getFilteredTasks().length > 0 ? (
+              getFilteredTasks().map(({ id, ...e }) => (
+                <li key={id}>
+                  <button className="toggle" onClick={() => toggleTask(id)}>
+                    <i
+                      className={`fa-regular ${
+                        e.done ? 'fa-circle-check' : 'fa-circle'
+                      }`}
+                    ></i>
+                  </button>
+                  <span className={`content ${e.done ? 'done' : ''}`}>
+                    {e.content}
+                  </span>
+                  <button className="delete" onClick={() => deleteTask(id)}>
+                    <i className="fa-solid fa-trash-can"></i>
+                  </button>
+                </li>
+              ))
+            ) : (
+              <li className="placeholder-todo">There's nothing here...</li>
+            )}
+          </ul>
+          <div className="list-footer">
+            <div className="remaining-count">
+              {tasks.length - getCompletedTasks()} task
+              {tasks.length - getCompletedTasks() === 1 ? '' : 's'} left
+            </div>
+            <div className="filter">
+              <button
+                className={`all ${currentView === 'all' ? 'selected' : ''}`}
+                onClick={() => setCurrentView('all')}
+              >
+                all
+              </button>
+              <button
+                className={`active ${
+                  currentView === 'active' ? 'selected' : ''
+                }`}
+                onClick={() => setCurrentView('active')}
+              >
+                active
+              </button>
+              <button
+                className={`completed ${
+                  currentView === 'completed' ? 'selected' : ''
+                }`}
+                onClick={() => setCurrentView('completed')}
+              >
+                completed
+              </button>
+            </div>
+            <button className="clear-completed" onClick={deleteCompleted}>
+              Clear Completed
+            </button>
           </div>
-          <div className="filter">
-            <button
-              className={`all ${currentView === 'all' ? 'selected' : ''}`}
-              onClick={() => setCurrentView('all')}
-            >
-              all
-            </button>
-            <button
-              className={`active ${currentView === 'active' ? 'selected' : ''}`}
-              onClick={() => setCurrentView('active')}
-            >
-              active
-            </button>
-            <button
-              className={`completed ${
-                currentView === 'completed' ? 'selected' : ''
-              }`}
-              onClick={() => setCurrentView('completed')}
-            >
-              completed
-            </button>
-          </div>
-          <button className="clear-completed" onClick={deleteCompleted}>
-            Clear Completed
-          </button>
         </div>
       </main>
     </>
