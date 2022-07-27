@@ -1,8 +1,8 @@
-import { ComponentPropsWithRef, FormEvent, useEffect, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 const localStorageKey = 'focus360challenge-tasks';
 
-interface Todo {
+export interface Todo {
   content: string;
   done: boolean;
   id?: string;
@@ -26,8 +26,6 @@ if (!data) {
   console.log('No local data found. Initializing dummy data.');
   data = initialTodos.map(e => initializeTodo(e));
 }
-
-type ListItemProps = {};
 
 function ListItem({
   todo: { id, done, content },
@@ -61,6 +59,7 @@ export function App() {
       return count;
     }, 0);
 
+  const [query, setQuery] = useState('');
   const [currentView, setCurrentView] = useState('all' as TodosView);
   const getFilteredTasks = () => {
     switch (currentView) {
@@ -148,6 +147,13 @@ export function App() {
               <li className="placeholder-todo">There's nothing here...</li>
             )}
           </ul>
+          <input
+            type="text"
+            className="search"
+            value={query}
+            onChange={e => setQuery(e.target.value)}
+            placeholder="Search for tasks..."
+          />
           <div className="list-footer">
             <div className="remaining-count">
               {tasks.length - getCompletedTasks()} task
