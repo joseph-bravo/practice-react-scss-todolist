@@ -1,6 +1,7 @@
 @import url('./reset.scss');
 
 $background: hsl(228, 22%, 95%);
+$background-100: hsl(228, 22%, 86%);
 
 body {
   background: $background;
@@ -10,6 +11,10 @@ button {
   all: unset;
   cursor: pointer;
   user-select: none;
+
+  &:focus-visible {
+    background: $background;
+  }
 }
 
 header {
@@ -95,7 +100,7 @@ main {
         display: flex;
         button {
           padding: 0.5rem;
-          border: $background solid 2px;
+          border: $background-100 solid 2px;
           &.selected {
             border: black solid 2px;
           }
