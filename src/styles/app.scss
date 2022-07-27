@@ -90,6 +90,9 @@ main {
       button {
         padding: 0.5rem;
         border: $background solid 2px;
+        &.selected {
+          border: black solid 2px;
+        }
       }
     }
 

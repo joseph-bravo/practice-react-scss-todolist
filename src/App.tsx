@@ -6,6 +6,9 @@ interface Todo {
   done: boolean;
   id?: string;
 }
+
+type TodosView = 'all' | 'active' | 'completed';
+
 let initialTodos: object[] = [
   { content: 'first task ever', done: false },
   { content: 'second task ever', done: true },
@@ -19,6 +22,8 @@ export function App() {
       if (task.done) return count + 1;
       return count;
     }, 0);
+
+  const [currentView, setCurrentView] = useState('all' as TodosView);
 
   const formDefault = {
     content: ''
@@ -97,9 +102,26 @@ export function App() {
             {tasks.length - getCompletedTasks() === 1 ? '' : 's'} left
           </div>
           <div className="filter">
-            <button>all</button>
-            <button>active</button>
-            <button>complete</button>
+            <button
+              className={`all ${currentView === 'all' ? 'selected' : ''}`}
+              onClick={() => setCurrentView('all')}
+            >
+              all
+            </button>
+            <button
+              className={`active ${currentView === 'active' ? 'selected' : ''}`}
+              onClick={() => setCurrentView('active')}
+            >
+              active
+            </button>
+            <button
+              className={`completed ${
+                currentView === 'completed' ? 'selected' : ''
+              }`}
+              onClick={() => setCurrentView('completed')}
+            >
+              completed
+            </button>
           </div>
           <button className="clear-completed">Clear Completed</button>
         </div>
