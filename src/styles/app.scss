@@ -6,6 +6,11 @@ body {
   background: $background;
 }
 
+button {
+  all: unset;
+  cursor: pointer;
+}
+
 header {
   padding: 2rem;
 
@@ -39,13 +44,12 @@ main {
 
     li {
       display: block;
-      padding: 1rem;
+      padding: 0.5rem;
       outline: 2px solid $background;
 
       button.toggle {
-        all: unset;
+        padding: 0.5rem;
         font-size: larger;
-        cursor: pointer;
 
         &:active {
           transform: translateY(1px);
@@ -53,8 +57,7 @@ main {
       }
 
       .content {
-        padding-left: 1rem;
-
+        padding-left: 0.5rem;
         &.done {
           color: gray;
           text-decoration: line-through;
@@ -64,16 +67,34 @@ main {
   }
 
   .list-footer {
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    justify-items: center;
+    padding: 2rem 0 0;
+    border-top: $background solid 2px;
+
+    .filter {
+      display: flex;
+      button {
+        padding: 0.5rem;
+        border: $background solid 2px;
+      }
+    }
 
     .clear-completed {
-      all: unset;
       cursor: pointer;
 
       &:hover {
         text-decoration: underline;
       }
+    }
+
+    > :first-child {
+      justify-self: left;
+    }
+    > :last-child {
+      justify-self: end;
     }
   }
 }

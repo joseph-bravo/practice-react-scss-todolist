@@ -1,13 +1,11 @@
 import { FormEvent, useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 
 interface Todo {
   content: string;
   done: boolean;
-  id?: number;
+  id?: string;
 }
-
-let nextId: number = 0;
-
 let initialTodos: object[] = [
   { content: 'first task ever', done: false },
   { content: 'second task ever', done: true },
@@ -16,6 +14,11 @@ let initialTodos: object[] = [
 
 export function App() {
   const [tasks, setTasks] = useState([] as Todo[]);
+  const getCompletedTasks = () =>
+    tasks.reduce((count: number, task) => {
+      if (task.done) return count + 1;
+      return count;
+    }, 0);
 
   const formDefault = {
     content: ''
@@ -30,11 +33,12 @@ export function App() {
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
     const { content } = formInput;
-    setTasks([...tasks, { content, done: false, id: nextId++ }]);
+    const id = uuidv4();
+    setTasks([...tasks, { content, done: false, id }]);
     setFormInput(formDefault);
   };
 
-  const toggleTask = (id: number) => {
+  const toggleTask = (id: string) => {
     const newTaskList = [...tasks].map(e => {
       if (e.id === id) {
         return {
@@ -80,7 +84,10 @@ export function App() {
           ))}
         </ul>
         <div className="list-footer">
-          <div className="remaining-count">{tasks.length} tasks left</div>
+          <div className="remaining-count">
+            {tasks.length - getCompletedTasks()} task
+            {tasks.length - getCompletedTasks() === 1 ? '' : 's'} left
+          </div>
           <div className="filter">
             <button>all</button>
             <button>active</button>
