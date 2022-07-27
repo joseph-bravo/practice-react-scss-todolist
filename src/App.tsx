@@ -24,6 +24,16 @@ export function App() {
     }, 0);
 
   const [currentView, setCurrentView] = useState('all' as TodosView);
+  const getFilteredTasks = () => {
+    switch (currentView) {
+      case 'all':
+        return tasks;
+      case 'active':
+        return tasks.filter(e => e.done === false);
+      case 'completed':
+        return tasks.filter(e => e.done === true);
+    }
+  };
 
   const formDefault = {
     content: ''
@@ -61,6 +71,11 @@ export function App() {
     setTasks(newTaskList);
   };
 
+  const deleteCompleted = () => {
+    const newTaskList = tasks.filter(e => e.done === false);
+    setTasks(newTaskList);
+  };
+
   return (
     <>
       <header>
@@ -78,23 +93,27 @@ export function App() {
           />
         </form>
         <ul>
-          {tasks.map(({ id, ...e }) => (
-            <li key={id}>
-              <button className="toggle" onClick={() => toggleTask(id)}>
-                <i
-                  className={`fa-regular ${
-                    e.done ? 'fa-circle-check' : 'fa-circle'
-                  }`}
-                ></i>
-              </button>
-              <span className={`content ${e.done ? 'done' : ''}`}>
-                {e.content}
-              </span>
-              <button className="delete" onClick={() => deleteTask(id)}>
-                <i className="fa-solid fa-trash-can"></i>
-              </button>
-            </li>
-          ))}
+          {getFilteredTasks().length > 0 ? (
+            getFilteredTasks().map(({ id, ...e }) => (
+              <li key={id}>
+                <button className="toggle" onClick={() => toggleTask(id)}>
+                  <i
+                    className={`fa-regular ${
+                      e.done ? 'fa-circle-check' : 'fa-circle'
+                    }`}
+                  ></i>
+                </button>
+                <span className={`content ${e.done ? 'done' : ''}`}>
+                  {e.content}
+                </span>
+                <button className="delete" onClick={() => deleteTask(id)}>
+                  <i className="fa-solid fa-trash-can"></i>
+                </button>
+              </li>
+            ))
+          ) : (
+            <li className="placeholder-todo">There's nothing here...</li>
+          )}
         </ul>
         <div className="list-footer">
           <div className="remaining-count">
@@ -123,7 +142,9 @@ export function App() {
               completed
             </button>
           </div>
-          <button className="clear-completed">Clear Completed</button>
+          <button className="clear-completed" onClick={deleteCompleted}>
+            Clear Completed
+          </button>
         </div>
       </main>
     </>

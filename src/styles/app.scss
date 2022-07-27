@@ -9,6 +9,7 @@ body {
 button {
   all: unset;
   cursor: pointer;
+  user-select: none;
 }
 
 header {
@@ -73,6 +74,10 @@ main {
         &:active {
           transform: translateY(1px);
         }
+      }
+
+      &.placeholder-todo {
+        padding: 1rem;
       }
     }
   }
