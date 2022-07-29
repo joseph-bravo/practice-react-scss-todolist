@@ -1,40 +1,35 @@
-import { FormEvent, useEffect, useRef, useState } from 'react';
+import { FormEvent, useRef, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import searchTodos from './lib/search';
 import { ListItem } from './components/ListItem';
 import useAutoAnimateCustom from './lib/hooks/useAutoAnimateCustom';
+import useLocalStorage from './lib/hooks/useLocalStorage';
 const localStorageKey = 'focus360challenge-tasks';
 
 export interface Todo {
   content: string;
   done: boolean;
   id?: string;
+  color?: 'red' | 'green' | 'blue' | null;
 }
 
 type TodosView = 'all' | 'active' | 'completed';
 
-const initialTodos: object[] = [
+const initialTodos: Todo[] = [
   { content: 'first task ever', done: false },
   { content: 'second task ever', done: true },
   { content: 'third task ever', done: false }
 ];
 
-function initializeTodo(todo: object) {
+function initializeTodo(todo: Todo): Todo {
   return { ...todo, id: uuidv4() };
 }
 
-const jsondata = window.localStorage.getItem(localStorageKey);
-let data = JSON.parse(jsondata);
-if (!data) {
-  console.log('No local data found. Initializing dummy data.');
-  data = initialTodos.map(e => initializeTodo(e));
-}
-
 export function App() {
-  const [tasks, setTasks] = useState(data as Todo[]);
-  useEffect(() => {
-    window.localStorage.setItem(localStorageKey, JSON.stringify(tasks));
-  }, [tasks]);
+  const [tasks, setTasks] = useLocalStorage<Todo[]>(
+    localStorageKey,
+    initialTodos.map(e => initializeTodo(e))
+  );
 
   const getCompletedTasks = () =>
     tasks.reduce((count: number, task) => {
@@ -55,11 +50,11 @@ export function App() {
     }
   };
 
-  const formDefault = {
-    content: ''
-  };
+  const list = useAutoAnimateCustom();
+  const form = useRef(null);
 
-  const [formInput, setFormInput] = useState(formDefault);
+  const formSchema = { content: '' };
+  const [formInput, setFormInput] = useState({ content: '' });
 
   const handleFormInputChange = ({ target: { name, value } }) => {
     setFormInput({ ...formInput, [name]: value });
@@ -69,9 +64,8 @@ export function App() {
     event.preventDefault();
     const { content } = formInput;
     const id = uuidv4();
-    console.log(content.trim());
     setTasks([...tasks, { content: content.trim(), done: false, id }]);
-    setFormInput(formDefault);
+    setFormInput(formSchema);
   };
 
   const toggleTask = (id: string) => {
@@ -97,8 +91,6 @@ export function App() {
     setTasks(newTaskList);
   };
 
-  const list = useAutoAnimateCustom();
-  const form = useRef(null);
   return (
     <>
       <header>

@@ -80,7 +80,7 @@ main {
 
         .content {
           flex: auto;
-          padding-left: 0.5rem;
+          padding: 0.75rem 0.5rem;
           &.done {
             color: gray;
             text-decoration: line-through;
