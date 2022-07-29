@@ -10,7 +10,7 @@ export interface Todo {
 
 type TodosView = 'all' | 'active' | 'completed';
 
-const initialTodos: object[] = [
+const initialTodos: Todo[] = [
   { content: 'first task ever', done: false },
   { content: 'second task ever', done: true },
   { content: 'third task ever', done: false }
@@ -138,6 +138,7 @@ export function App() {
             {getFilteredTasks().length > 0 ? (
               getFilteredTasks().map(todo => (
                 <ListItem
+                  key={todo.id}
                   todo={todo}
                   toggleTask={toggleTask}
                   deleteTask={deleteTask}
