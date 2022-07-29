@@ -1,4 +1,10 @@
-import { FormEvent, useEffect, useRef, useState } from 'react';
+import {
+  FormEvent,
+  useDeferredValue,
+  useEffect,
+  useRef,
+  useState
+} from 'react';
 import autoAnimate from '@formkit/auto-animate';
 import { v4 as uuidv4 } from 'uuid';
 import searchTodos from './lib/search';
@@ -70,7 +76,8 @@ export function App() {
     event.preventDefault();
     const { content } = formInput;
     const id = uuidv4();
-    setTasks([...tasks, { content, done: false, id }]);
+    console.log(content.trim());
+    setTasks([...tasks, { content: content.trim(), done: false, id }]);
     setFormInput(formDefault);
   };
 
@@ -98,6 +105,7 @@ export function App() {
   };
 
   const list = useAutoAnimateCustom();
+  const form = useRef(null);
   return (
     <>
       <header>
@@ -105,14 +113,18 @@ export function App() {
       </header>
       <main>
         <div className="main-card">
-          <form onSubmit={handleSubmit}>
-            <input
+          <form onSubmit={handleSubmit} ref={form}>
+            <textarea
               required
-              type="text"
               value={formInput.content}
               onChange={handleFormInputChange}
+              onKeyDown={e => {
+                if (e.key === 'Enter' && e.ctrlKey) {
+                  form.current.requestSubmit();
+                }
+              }}
               name="content"
-              placeholder="What needs to be done?"
+              placeholder="What needs to be done? (CTRL + Enter to add)"
             />
           </form>
           <ul ref={list}>
@@ -123,10 +135,10 @@ export function App() {
                   todo={todo}
                   toggleTask={toggleTask}
                   deleteTask={deleteTask}
-                ></ListItem>
+                />
               ))
             ) : (
-              <li className="placeholder-todo">
+              <li key={'placeholder'} className="placeholder-todo">
                 <span className="content">There's nothing here...</span>
               </li>
             )}
