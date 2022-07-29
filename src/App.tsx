@@ -1,6 +1,9 @@
-import { FormEvent, useEffect, useState } from 'react';
+import { FormEvent, useEffect, useRef, useState } from 'react';
+import autoAnimate from '@formkit/auto-animate';
 import { v4 as uuidv4 } from 'uuid';
 import searchTodos from './lib/search';
+import { ListItem } from './components/ListItem';
+import useAutoAnimateCustom from './lib/hooks/useAutoAnimateCustom';
 const localStorageKey = 'focus360challenge-tasks';
 
 export interface Todo {
@@ -26,30 +29,6 @@ let data = JSON.parse(jsondata);
 if (!data) {
   console.log('No local data found. Initializing dummy data.');
   data = initialTodos.map(e => initializeTodo(e));
-}
-
-function ListItem({
-  todo: { id, done, content },
-  toggleTask,
-  deleteTask
-}: {
-  todo: Todo;
-  toggleTask: Function;
-  deleteTask: Function;
-}) {
-  return (
-    <li key={id}>
-      <button className="toggle" onClick={() => toggleTask(id)}>
-        <i
-          className={`fa-regular ${done ? 'fa-circle-check' : 'fa-circle'}`}
-        ></i>
-      </button>
-      <span className={`content ${done ? 'done' : ''}`}>{content}</span>
-      <button className="delete" onClick={() => deleteTask(id)}>
-        <i className="fa-solid fa-trash-can"></i>
-      </button>
-    </li>
-  );
 }
 
 export function App() {
@@ -118,6 +97,7 @@ export function App() {
     setTasks(newTaskList);
   };
 
+  const list = useAutoAnimateCustom();
   return (
     <>
       <header>
@@ -135,19 +115,22 @@ export function App() {
               placeholder="What needs to be done?"
             />
           </form>
-          {getFilteredTasks().length > 0 ? (
-            <ul>
-              {getFilteredTasks().map(todo => (
+          <ul ref={list}>
+            {getFilteredTasks().length > 0 ? (
+              getFilteredTasks().map(todo => (
                 <ListItem
+                  key={todo.id}
                   todo={todo}
                   toggleTask={toggleTask}
                   deleteTask={deleteTask}
                 ></ListItem>
-              ))}
-            </ul>
-          ) : (
-            <div className="placeholder-todo">There's nothing here...</div>
-          )}
+              ))
+            ) : (
+              <li className="placeholder-todo">
+                <span className="content">There's nothing here...</span>
+              </li>
+            )}
+          </ul>
           <input
             type="text"
             className="search"
