@@ -1,9 +1,8 @@
 import { Todo, TodosView } from './lib/types';
-import { FormEvent, useRef, useState } from 'react';
+import { FormEvent, useRef, useState, useMemo } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { ListItem } from './components/ListItem';
 import searchTodos from './lib/search';
-import useAutoAnimateCustom from './lib/hooks/useAutoAnimateCustom';
 import useLocalStorage from './lib/hooks/useLocalStorage';
 import defaultTodos from './lib/default-todos';
 
@@ -25,7 +24,8 @@ export function App() {
 
   const [query, setQuery] = useState('');
   const [currentView, setCurrentView] = useState('all' as TodosView);
-  const getFilteredTasks = () => {
+
+  const currentVisibleTasks = useMemo(() => {
     switch (currentView) {
       case 'all':
         return searchTodos(tasks, query);
@@ -34,19 +34,15 @@ export function App() {
       case 'completed':
         return searchTodos(tasks, query).filter(e => e.done === true);
     }
-  };
+  }, [tasks, query, currentView]);
 
-  const list = useAutoAnimateCustom();
   const form = useRef(null);
-
   const formSchema = { content: '', color: 'neutral' };
   const [formInput, setFormInput] = useState(formSchema);
 
   const handleFormInputChange = ({ target: { name, value } }) => {
     setFormInput({ ...formInput, [name]: value });
   };
-
-  console.log(formInput);
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
@@ -123,9 +119,9 @@ export function App() {
               <button type="submit">add</button>
             </div>
           </form>
-          <ul ref={list}>
-            {getFilteredTasks().length > 0 ? (
-              getFilteredTasks().map(todo => (
+          <ul>
+            {currentVisibleTasks.length > 0 ? (
+              currentVisibleTasks.map(todo => (
                 <ListItem
                   key={todo.id}
                   todo={todo}
