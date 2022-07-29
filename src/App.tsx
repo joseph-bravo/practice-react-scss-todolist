@@ -1,5 +1,6 @@
 import { FormEvent, useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
+import searchTodos from './lib/search';
 const localStorageKey = 'focus360challenge-tasks';
 
 export interface Todo {
@@ -10,7 +11,7 @@ export interface Todo {
 
 type TodosView = 'all' | 'active' | 'completed';
 
-const initialTodos: Todo[] = [
+const initialTodos: object[] = [
   { content: 'first task ever', done: false },
   { content: 'second task ever', done: true },
   { content: 'third task ever', done: false }
@@ -53,6 +54,10 @@ function ListItem({
 
 export function App() {
   const [tasks, setTasks] = useState(data as Todo[]);
+  useEffect(() => {
+    window.localStorage.setItem(localStorageKey, JSON.stringify(tasks));
+  }, [tasks]);
+
   const getCompletedTasks = () =>
     tasks.reduce((count: number, task) => {
       if (task.done) return count + 1;
@@ -64,11 +69,11 @@ export function App() {
   const getFilteredTasks = () => {
     switch (currentView) {
       case 'all':
-        return tasks;
+        return searchTodos(tasks, query);
       case 'active':
-        return tasks.filter(e => e.done === false);
+        return searchTodos(tasks, query).filter(e => e.done === false);
       case 'completed':
-        return tasks.filter(e => e.done === true);
+        return searchTodos(tasks, query).filter(e => e.done === true);
     }
   };
 
@@ -113,10 +118,6 @@ export function App() {
     setTasks(newTaskList);
   };
 
-  useEffect(() => {
-    window.localStorage.setItem(localStorageKey, JSON.stringify(tasks));
-  }, [tasks]);
-
   return (
     <>
       <header>
@@ -134,20 +135,19 @@ export function App() {
               placeholder="What needs to be done?"
             />
           </form>
-          <ul>
-            {getFilteredTasks().length > 0 ? (
-              getFilteredTasks().map(todo => (
+          {getFilteredTasks().length > 0 ? (
+            <ul>
+              {getFilteredTasks().map(todo => (
                 <ListItem
-                  key={todo.id}
                   todo={todo}
                   toggleTask={toggleTask}
                   deleteTask={deleteTask}
                 ></ListItem>
-              ))
-            ) : (
-              <li className="placeholder-todo">There's nothing here...</li>
-            )}
-          </ul>
+              ))}
+            </ul>
+          ) : (
+            <div className="placeholder-todo">There's nothing here...</div>
+          )}
           <input
             type="text"
             className="search"

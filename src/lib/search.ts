@@ -6,7 +6,6 @@ import { Todo } from '../App';
  * @param query String to search within todo.content.
  */
 export default function searchTodos(todos: Todo[], query: string): Todo[] {
-  console.log(query.toLowerCase().replace(/ /g, ''));
   return todos.filter(todo => {
     const { content } = todo;
     if (

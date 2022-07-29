@@ -49,6 +49,11 @@ main {
       }
     }
 
+    .placeholder-todo {
+      padding: 2rem;
+      text-align: center;
+    }
+
     ul {
       display: flex;
       flex-direction: column;
@@ -85,10 +90,6 @@ main {
           &:active {
             transform: translateY(1px);
           }
-        }
-
-        &.placeholder-todo {
-          padding: 1rem;
         }
       }
     }
