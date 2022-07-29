@@ -98,7 +98,6 @@ export function App() {
               placeholder="What needs to be done? (CTRL + Enter to add)"
             />
             <div className="controls">
-              di
               <button type="submit">add</button>
             </div>
           </form>
