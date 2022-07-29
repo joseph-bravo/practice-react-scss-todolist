@@ -1,11 +1,4 @@
-import {
-  FormEvent,
-  useDeferredValue,
-  useEffect,
-  useRef,
-  useState
-} from 'react';
-import autoAnimate from '@formkit/auto-animate';
+import { FormEvent, useEffect, useRef, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import searchTodos from './lib/search';
 import { ListItem } from './components/ListItem';
