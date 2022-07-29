@@ -38,7 +38,7 @@ export function App() {
   const form = useRef(null);
 
   const formSchema = { content: '' };
-  const [formInput, setFormInput] = useState({ content: '' });
+  const [formInput, setFormInput] = useState(formSchema);
 
   const handleFormInputChange = ({ target: { name, value } }) => {
     setFormInput({ ...formInput, [name]: value });
