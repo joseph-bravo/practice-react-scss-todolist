@@ -2,6 +2,22 @@
 
 $background: hsl(228, 22%, 95%);
 $background-100: hsl(228, 22%, 86%);
+$selected: hsl(228, 22%, 20%);
+$done: hsl(0, 0%, 50%);
+$border: hsl(0, 0%, 100%);
+$red: hsl(0, 100%, 95%);
+$red-darker: hsl(0, 100%, 80%);
+$green: hsl(134, 100%, 95%);
+$green-darker: hsl(134, 100%, 80%);
+$blue: hsl(195, 100%, 95%);
+$blue-darker: hsl(195, 100%, 80%);
+$neutral: hsl(0, 0%, 95%);
+$neutral-darker: hsl(0, 0%, 80%);
+
+$box-btn-bg: hsl(0, 0%, 30%);
+$box-btn-content: hsl(0, 0%, 95%);
+$box-btn-selected-bg: hsl(0, 0%, 85%);
+$box-btn-selected-content: hsl(0, 0%, 15%);
 
 @mixin textinput {
   display: block;
@@ -18,13 +34,20 @@ body {
 }
 
 button {
-  all: unset;
-  cursor: pointer;
-  user-select: none;
-
   &:focus-visible {
-    background: $background;
+    outline: solid 2px $selected;
   }
+}
+
+@mixin boxbutton {
+  color: $box-btn-content;
+  background: $box-btn-bg;
+}
+
+@mixin boxbutton-active {
+  color: $box-btn-selected-content;
+  background: $box-btn-selected-bg;
+  box-shadow: inset 0 0 5px hsl(0, 0%, 75%);
 }
 
 header {
@@ -36,6 +59,7 @@ header {
     text-align: center;
   }
 }
+
 main {
   padding: 1rem 1rem 4rem;
   .main-card {
@@ -49,19 +73,45 @@ main {
       textarea {
         @include textinput();
       }
-      button {
-        padding: 0.5rem;
-        border: $background-100 solid 2px;
-        &.selected {
-          border: black solid 2px;
-        }
-      }
 
       .controls {
         padding-top: 1rem;
         display: flex;
         justify-content: space-between;
         align-items: center;
+
+        .color-selection {
+          display: flex;
+          align-items: center;
+          gap: 0.25rem;
+
+          button {
+            width: 2rem;
+            height: 2rem;
+
+            &.color-select-red {
+              background: $red-darker;
+            }
+            &.color-select-green {
+              background: $green-darker;
+            }
+            &.color-select-blue {
+              background: $blue-darker;
+            }
+            &.color-select-neutral {
+              background: $neutral-darker;
+            }
+
+            &.selected {
+              border: $selected solid 2px;
+            }
+          }
+        }
+
+        > button {
+          @include boxbutton();
+          padding: 0.5rem 1rem;
+        }
       }
     }
 
@@ -74,10 +124,23 @@ main {
         display: flex;
         align-items: center;
         padding: 0.5rem;
-        outline: 2px solid $background;
+        outline: 2px solid $border;
+
+        &.color-red {
+          background: $red;
+        }
+        &.color-green {
+          background: $green;
+        }
+        &.color-blue {
+          background: $blue;
+        }
+        &.color-neutral {
+          background: $neutral;
+        }
 
         &.placeholder-todo {
-          padding: 1rem;
+          padding: 0.5rem;
           text-align: center;
           .content {
             margin: auto;
@@ -97,7 +160,7 @@ main {
           flex: auto;
           padding: 0.75rem 0.5rem;
           &.done {
-            color: gray;
+            color: $done;
             text-decoration: line-through;
           }
         }
@@ -125,15 +188,15 @@ main {
       align-items: center;
       justify-items: center;
       padding: 2rem 0 0;
-      border-top: $background solid 2px;
 
       .filter {
         display: flex;
+        gap: 0.25rem;
         button {
-          padding: 0.5rem;
-          border: $background-100 solid 2px;
+          @include boxbutton();
+          padding: 0.5rem 1rem;
           &.selected {
-            border: black solid 2px;
+            @include boxbutton-active();
           }
         }
       }

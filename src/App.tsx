@@ -39,18 +39,20 @@ export function App() {
   const list = useAutoAnimateCustom();
   const form = useRef(null);
 
-  const formSchema = { content: '' };
+  const formSchema = { content: '', color: 'neutral' };
   const [formInput, setFormInput] = useState(formSchema);
 
   const handleFormInputChange = ({ target: { name, value } }) => {
     setFormInput({ ...formInput, [name]: value });
   };
 
+  console.log(formInput);
+
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
-    const { content } = formInput;
+    const { content, color } = formInput;
     const id = uuidv4();
-    setTasks([...tasks, { content: content.trim(), done: false, id }]);
+    setTasks([...tasks, { content: content.trim(), done: false, color, id }]);
     setFormInput(formSchema);
   };
 
@@ -98,6 +100,26 @@ export function App() {
               placeholder="What needs to be done? (CTRL + Enter to add)"
             />
             <div className="controls">
+              <div className="color-selection">
+                {colorOptions.map(color => {
+                  return (
+                    <button
+                      key={color}
+                      onClick={e => {
+                        e.preventDefault();
+                        handleFormInputChange({
+                          target: { name: 'color', value: color }
+                        });
+                      }}
+                      name="color"
+                      value={color}
+                      className={`color-select-${color} ${
+                        formInput.color === color ? 'selected' : ''
+                      }`}
+                    />
+                  );
+                })}
+              </div>
               <button type="submit">add</button>
             </div>
           </form>

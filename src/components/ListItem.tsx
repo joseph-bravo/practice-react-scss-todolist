@@ -22,14 +22,14 @@ export function ListItem(props: {
   deleteTask: Function;
 }) {
   const {
-    todo: { id, done, content },
+    todo: { id, done, content, color },
     toggleTask,
     deleteTask
   } = props;
   const text = useMemo(() => addBreaks(content), [content]);
   console.log('hi');
   return (
-    <li>
+    <li className={`color-${color}`}>
       <button className="toggle" onClick={() => toggleTask(id)}>
         <i
           className={`fa-regular ${done ? 'fa-circle-check' : 'fa-circle'}`}
