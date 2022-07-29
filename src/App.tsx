@@ -9,6 +9,8 @@ import defaultTodos from './lib/default-todos';
 
 const localStorageKey = 'focus360challenge-tasks';
 
+const colorOptions = ['red', 'green', 'blue', 'neutral'];
+
 export function App() {
   const [tasks, setTasks] = useLocalStorage<Todo[]>(
     localStorageKey,
@@ -95,6 +97,10 @@ export function App() {
               name="content"
               placeholder="What needs to be done? (CTRL + Enter to add)"
             />
+            <div className="controls">
+              di
+              <button type="submit">add</button>
+            </div>
           </form>
           <ul ref={list}>
             {getFilteredTasks().length > 0 ? (

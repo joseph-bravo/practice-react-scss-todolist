@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { Todo } from '../App';
+import { Todo } from '../lib/types';
 
 function addBreaks(string: string) {
   const split = string.split('\n');
@@ -16,7 +16,11 @@ function addBreaks(string: string) {
   });
 }
 
-export function ListItem(props) {
+export function ListItem(props: {
+  todo: Todo;
+  toggleTask: Function;
+  deleteTask: Function;
+}) {
   const {
     todo: { id, done, content },
     toggleTask,

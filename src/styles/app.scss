@@ -3,6 +3,16 @@
 $background: hsl(228, 22%, 95%);
 $background-100: hsl(228, 22%, 86%);
 
+@mixin textinput {
+  display: block;
+  width: 100%;
+  padding: 1rem;
+  border: none;
+  background: $background;
+  font-size: large;
+  resize: none;
+}
+
 body {
   background: $background;
 }
@@ -35,18 +45,23 @@ main {
     border-radius: 1rem;
     background: white;
 
-    textarea,
-    input {
-      display: block;
-      width: 100%;
-      padding: 1rem;
-      border: none;
-      background: $background;
-      font-size: large;
-      resize: none;
-      &.search {
-        padding: 0.75rem 1rem;
-        font-size: medium;
+    form {
+      textarea {
+        @include textinput();
+      }
+      button {
+        padding: 0.5rem;
+        border: $background-100 solid 2px;
+        &.selected {
+          border: black solid 2px;
+        }
+      }
+
+      .controls {
+        padding-top: 1rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
       }
     }
 
@@ -96,6 +111,12 @@ main {
           }
         }
       }
+    }
+
+    input.search {
+      @include textinput();
+      padding: 0.75rem 1rem;
+      font-size: medium;
     }
 
     .list-footer {
