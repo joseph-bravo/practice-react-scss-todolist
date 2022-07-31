@@ -35,7 +35,7 @@ body {
 
 button {
   &:focus-visible {
-    outline: solid 2px $selected;
+    outline: solid 1px $selected;
   }
 }
 
