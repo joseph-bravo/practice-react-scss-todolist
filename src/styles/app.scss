@@ -166,12 +166,32 @@ main {
         }
 
         button.delete {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 1rem;
+          height: 1rem;
           padding: 0.5rem;
-          font-size: larger;
+          background: $box-btn-selected-bg;
+          color: $box-btn-selected-content;
 
           &:active {
             transform: translateY(1px);
           }
+        }
+
+        .handle {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 1rem;
+          height: 1rem;
+          margin-left: 1rem;
+          padding: 1rem;
+
+          background: $box-btn-selected-bg;
+          font-size: larger;
+          cursor: grab;
         }
       }
     }

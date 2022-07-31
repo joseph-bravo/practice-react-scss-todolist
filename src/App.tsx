@@ -1,16 +1,17 @@
 import { Todo, TodosView } from './lib/types';
-import { FormEvent, useRef, useState, useMemo } from 'react';
+import { FormEvent, useRef, useState, useMemo, FC } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { ListItem } from './components/ListItem';
 import searchTodos from './lib/search';
 import useLocalStorage from './lib/hooks/useLocalStorage';
 import defaultTodos from './lib/default-todos';
+import { ReactSortable } from 'react-sortablejs';
 
 const localStorageKey = 'focus360challenge-tasks';
 
 const colorOptions = ['red', 'green', 'blue', 'neutral'];
 
-export function App() {
+export const App: FC = props => {
   const [tasks, setTasks] = useLocalStorage<Todo[]>(
     localStorageKey,
     defaultTodos
@@ -119,22 +120,33 @@ export function App() {
               <button type="submit">add</button>
             </div>
           </form>
-          <ul>
-            {currentVisibleTasks.length > 0 ? (
-              currentVisibleTasks.map(todo => (
+          {currentVisibleTasks.length > 0 ? (
+            <ReactSortable
+              tag={'ul'}
+              animation={200}
+              list={tasks as any}
+              setList={setTasks as any}
+              disabled={currentView !== 'all'}
+              handle={'.handle'}
+            >
+              {currentVisibleTasks.map(todo => (
                 <ListItem
                   key={todo.id}
                   todo={todo}
                   toggleTask={toggleTask}
                   deleteTask={deleteTask}
+                  dragDisabled={currentView !== 'all'}
                 />
-              ))
-            ) : (
+              ))}
+            </ReactSortable>
+          ) : (
+            <ul>
               <li key={'placeholder'} className="placeholder-todo">
                 <span className="content">There's nothing here...</span>
               </li>
-            )}
-          </ul>
+            </ul>
+          )}
+
           <input
             type="text"
             className="search"
@@ -179,4 +191,4 @@ export function App() {
       </main>
     </>
   );
-}
+};

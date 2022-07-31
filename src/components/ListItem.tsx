@@ -20,11 +20,13 @@ export function ListItem(props: {
   todo: Todo;
   toggleTask: Function;
   deleteTask: Function;
+  dragDisabled: boolean;
 }) {
   const {
     todo: { id, done, content, color },
     toggleTask,
-    deleteTask
+    deleteTask,
+    dragDisabled
   } = props;
   const text = useMemo(() => addBreaks(content), [content]);
   console.log('hi');
@@ -39,6 +41,11 @@ export function ListItem(props: {
       <button className="delete" onClick={() => deleteTask(id)}>
         <i className="fa-solid fa-trash-can"></i>
       </button>
+      {!dragDisabled && (
+        <div className="handle">
+          <i className="fa-solid fa-grip-lines"></i>
+        </div>
+      )}
     </li>
   );
 }
