@@ -119,6 +119,7 @@ main {
       display: flex;
       flex-direction: column;
       padding: 2rem 0;
+      gap: 0.25rem;
 
       li {
         display: flex;
@@ -145,6 +146,10 @@ main {
           .content {
             margin: auto;
           }
+        }
+
+        &:focus-visible {
+          outline: solid 1.5px $selected;
         }
 
         button.toggle {

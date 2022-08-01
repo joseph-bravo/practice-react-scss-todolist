@@ -32,14 +32,14 @@ export function ListItem(props: {
   } = props;
   const text = useMemo(() => addBreaks(content), [content]);
   return (
-    <li onKeyDown={handleKeyDown} className={`color-${color}`}>
-      <button className="toggle" onClick={() => toggleTask(id)}>
+    <li tabIndex={0} onKeyDown={handleKeyDown} className={`color-${color}`}>
+      <button tabIndex={-1} className="toggle" onClick={() => toggleTask(id)}>
         <i
           className={`fa-regular ${done ? 'fa-circle-check' : 'fa-circle'}`}
         ></i>
       </button>
       <span className={`content ${done ? 'done' : ''}`}>{text}</span>
-      <button className="delete" onClick={() => deleteTask(id)}>
+      <button tabIndex={-1} className="delete" onClick={() => deleteTask(id)}>
         <i className="fa-solid fa-trash-can"></i>
       </button>
       {!dragDisabled && (

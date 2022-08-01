@@ -89,13 +89,28 @@ export const App: FC = () => {
     setTasks(newTaskList);
   };
 
-  const handleKeyDown = (e: KeyboardEvent, itemIndex: number) => {
+  const handleListItemKeyDown = (
+    e: KeyboardEvent,
+    itemIndex: number,
+    id: string
+  ) => {
+    if (e.key === 'Enter' && id !== '') {
+      toggleTask(id);
+    }
+
+    if (e.key === 'Delete' || (e.key === 'Backspace' && id !== '')) {
+      deleteTask(id);
+    }
+
     if (e.key === 'ArrowDown' && itemIndex !== tasks.length - 1) {
+      if (currentView !== 'all' || query.trim() !== '') return;
       const newArray = shiftArray(tasks, itemIndex, 1);
       setTasks(newArray);
       return;
     }
+
     if (e.key === 'ArrowUp' && itemIndex !== 0) {
+      if (currentView !== 'all' || query.trim() !== '') return;
       const newArray = shiftArray(tasks, itemIndex, -1);
       setTasks(newArray);
       return;
@@ -109,7 +124,25 @@ export const App: FC = () => {
       </header>
       <main>
         <div className="main-card">
-          <form onSubmit={handleSubmit} ref={form}>
+          <form
+            onKeyDown={e => {
+              if (
+                !Number.isNaN(Number(e.key)) &&
+                Number(e.key) <= colorOptions.length &&
+                Number(e.key) > 0
+              ) {
+                e.preventDefault();
+                handleFormInputChange({
+                  target: {
+                    name: 'color',
+                    value: colorOptions[Number(e.key) - 1]
+                  }
+                });
+              }
+            }}
+            onSubmit={handleSubmit}
+            ref={form}
+          >
             <textarea
               required
               value={formInput.content}
@@ -162,7 +195,7 @@ export const App: FC = () => {
             >
               {currentVisibleTasks.map((todo, index) => (
                 <ListItem
-                  handleKeyDown={e => handleKeyDown(e, index)}
+                  handleKeyDown={e => handleListItemKeyDown(e, index, todo.id)}
                   key={todo.id}
                   todo={todo}
                   toggleTask={toggleTask}
