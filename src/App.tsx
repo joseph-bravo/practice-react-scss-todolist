@@ -1,8 +1,6 @@
 import { FC } from 'react';
 import { TodoList } from './components/TodoList';
 
-interface KeybindContent {}
-
 const keybinds: {
   header: string;
   data: { header: string; content: string }[];
