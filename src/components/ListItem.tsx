@@ -29,7 +29,6 @@ export function ListItem(props: {
     dragDisabled
   } = props;
   const text = useMemo(() => addBreaks(content), [content]);
-  console.log('hi');
   return (
     <li className={`color-${color}`}>
       <button className="toggle" onClick={() => toggleTask(id)}>

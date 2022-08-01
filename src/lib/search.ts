@@ -1,4 +1,4 @@
-import { Todo } from '../App';
+import { Todo } from './types';
 
 /**
  * Filters out Todo objects given an array of Todos and a query string.

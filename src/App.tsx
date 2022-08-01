@@ -1,14 +1,15 @@
 import { Todo, TodosView } from './lib/types';
-import { FormEvent, useRef, useState, useMemo, FC } from 'react';
+import { FormEvent, useRef, useState, useMemo, FC, useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
+import { ReactSortable } from 'react-sortablejs';
 import { ListItem } from './components/ListItem';
-import searchTodos from './lib/search';
 import useLocalStorage from './lib/hooks/useLocalStorage';
 import defaultTodos from './lib/default-todos';
-import { ReactSortable } from 'react-sortablejs';
+import searchTodos from './lib/search';
 
 const localStorageKey = 'focus360challenge-tasks';
 const colorOptions = ['red', 'green', 'blue', 'neutral'];
+const formSchema = { content: '', color: 'neutral' };
 
 export const App: FC = () => {
   const [tasks, setTasks] = useLocalStorage<Todo[]>(
@@ -41,7 +42,6 @@ export const App: FC = () => {
 
   const form = useRef(null);
   const textarea = useRef(null);
-  const formSchema = { content: '', color: 'neutral' };
   const [formInput, setFormInput] = useState(formSchema);
 
   const handleFormInputChange = ({ target: { name, value } }) => {
@@ -92,12 +92,15 @@ export const App: FC = () => {
               value={formInput.content}
               onChange={handleFormInputChange}
               onKeyDown={e => {
-                if (e.key === 'Enter' && e.ctrlKey) {
+                if (e.key === 'Enter' && e.shiftKey) {
+                  return;
+                } else if (e.key === 'Enter') {
+                  e.preventDefault();
                   form.current.requestSubmit();
                 }
               }}
               name="content"
-              placeholder="What needs to be done? (CTRL + Enter to add)"
+              placeholder="What needs to be done? (Enter to Add, Shift + Enter for New Line)"
               ref={textarea}
             />
             <div className="controls">
