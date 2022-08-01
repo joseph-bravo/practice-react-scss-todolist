@@ -113,6 +113,7 @@ export const TodoList: FC = () => {
       <form
         onKeyDown={e => {
           if (
+            e.ctrlKey &&
             !Number.isNaN(Number(e.key)) &&
             Number(e.key) <= colorOptions.length &&
             Number(e.key) > 0
