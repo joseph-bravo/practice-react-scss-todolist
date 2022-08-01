@@ -46,3 +46,5 @@
 - Use `npm run dev` to launch test server.
 - Use `npm test` to run test scripts.
 - Use `npm run test:watch` in a separate terminal to run tests upon file save.
+
+NOTE: `/demo` has the pre-built site for local previewing via local server 
