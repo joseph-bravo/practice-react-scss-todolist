@@ -8,10 +8,9 @@ import defaultTodos from './lib/default-todos';
 import { ReactSortable } from 'react-sortablejs';
 
 const localStorageKey = 'focus360challenge-tasks';
-
 const colorOptions = ['red', 'green', 'blue', 'neutral'];
 
-export const App: FC = props => {
+export const App: FC = () => {
   const [tasks, setTasks] = useLocalStorage<Todo[]>(
     localStorageKey,
     defaultTodos
@@ -29,7 +28,10 @@ export const App: FC = props => {
   const currentVisibleTasks = useMemo(() => {
     switch (currentView) {
       case 'all':
-        return searchTodos(tasks, query);
+        if (query) {
+          return searchTodos(tasks, query);
+        }
+        return tasks;
       case 'active':
         return searchTodos(tasks, query).filter(e => e.done === false);
       case 'completed':
@@ -129,7 +131,7 @@ export const App: FC = props => {
               animation={200}
               list={tasks as any}
               setList={setTasks as any}
-              disabled={currentView !== 'all' || query.trim() === ''}
+              disabled={currentView !== 'all' || query.trim() !== ''}
               handle={'.handle'}
             >
               {currentVisibleTasks.map(todo => (
@@ -138,7 +140,7 @@ export const App: FC = props => {
                   todo={todo}
                   toggleTask={toggleTask}
                   deleteTask={deleteTask}
-                  dragDisabled={currentView !== 'all' || query.trim() === ''}
+                  dragDisabled={currentView !== 'all' || query.trim() !== ''}
                 />
               ))}
             </ReactSortable>
