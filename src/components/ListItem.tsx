@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { KeyboardEventHandler, useMemo } from 'react';
 import { Todo } from '../lib/types';
 
 function addBreaks(string: string) {
@@ -21,16 +21,18 @@ export function ListItem(props: {
   toggleTask: Function;
   deleteTask: Function;
   dragDisabled: boolean;
+  handleKeyDown: any;
 }) {
   const {
     todo: { id, done, content, color },
     toggleTask,
     deleteTask,
-    dragDisabled
+    dragDisabled,
+    handleKeyDown
   } = props;
   const text = useMemo(() => addBreaks(content), [content]);
   return (
-    <li className={`color-${color}`}>
+    <li onKeyDown={handleKeyDown} className={`color-${color}`}>
       <button className="toggle" onClick={() => toggleTask(id)}>
         <i
           className={`fa-regular ${done ? 'fa-circle-check' : 'fa-circle'}`}

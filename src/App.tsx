@@ -1,11 +1,21 @@
 import { Todo, TodosView } from './lib/types';
-import { FormEvent, useRef, useState, useMemo, FC, useEffect } from 'react';
+import {
+  FormEvent,
+  useRef,
+  useState,
+  useMemo,
+  FC,
+  useEffect,
+  FocusEvent,
+  KeyboardEventHandler
+} from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { ReactSortable } from 'react-sortablejs';
 import { ListItem } from './components/ListItem';
 import useLocalStorage from './lib/hooks/useLocalStorage';
 import defaultTodos from './lib/default-todos';
 import searchTodos from './lib/search';
+import shiftArray from './lib/shift-array';
 
 const localStorageKey = 'focus360challenge-tasks';
 const colorOptions = ['red', 'green', 'blue', 'neutral'];
@@ -79,6 +89,19 @@ export const App: FC = () => {
     setTasks(newTaskList);
   };
 
+  const handleKeyDown = (e: KeyboardEvent, itemIndex: number) => {
+    if (e.key === 'ArrowDown' && itemIndex !== tasks.length - 1) {
+      const newArray = shiftArray(tasks, itemIndex, 1);
+      setTasks(newArray);
+      return;
+    }
+    if (e.key === 'ArrowUp' && itemIndex !== 0) {
+      const newArray = shiftArray(tasks, itemIndex, -1);
+      setTasks(newArray);
+      return;
+    }
+  };
+
   return (
     <>
       <header>
@@ -137,8 +160,9 @@ export const App: FC = () => {
               disabled={currentView !== 'all' || query.trim() !== ''}
               handle={'.handle'}
             >
-              {currentVisibleTasks.map(todo => (
+              {currentVisibleTasks.map((todo, index) => (
                 <ListItem
+                  handleKeyDown={e => handleKeyDown(e, index)}
                   key={todo.id}
                   todo={todo}
                   toggleTask={toggleTask}
