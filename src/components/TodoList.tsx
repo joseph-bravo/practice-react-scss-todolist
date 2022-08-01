@@ -3,14 +3,16 @@ import { FormEvent, useRef, useState, useMemo, FC } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { ReactSortable } from 'react-sortablejs';
 import { ListItem } from './ListItem';
+import { PreviewImage } from './PreviewImage';
 import useLocalStorage from '../lib/hooks/useLocalStorage';
 import defaultTodos from '../lib/default-todos';
 import searchTodos from '../lib/search';
 import shiftArray from '../lib/shift-array';
+import { toast } from 'react-toastify';
 
 const localStorageKey = 'focus360challenge-tasks';
 const colorOptions = ['red', 'green', 'blue', 'neutral'];
-const formSchema = { content: '', color: 'neutral' };
+const formSchema = { content: '', color: 'neutral', imageurl: '' };
 
 export const TodoList: FC = () => {
   const [tasks, setTasks] = useLocalStorage<Todo[]>(
@@ -42,8 +44,10 @@ export const TodoList: FC = () => {
   }, [tasks, query, currentView]);
 
   const form = useRef(null);
+  const imageurlInput = useRef(null);
   const textarea = useRef(null);
   const [formInput, setFormInput] = useState(formSchema);
+  const [isImageUrlValid, setIsImageUrlValid] = useState(false);
 
   const handleFormInputChange = ({ target: { name, value } }) => {
     setFormInput({ ...formInput, [name]: value });
@@ -51,10 +55,17 @@ export const TodoList: FC = () => {
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
-    const { content, color } = formInput;
+    const { content, color, imageurl } = formInput;
     const id = uuidv4();
-    setTasks([...tasks, { content: content.trim(), done: false, color, id }]);
-    setFormInput({ ...formInput, content: '' });
+    if (imageurl && !isImageUrlValid) {
+      toast.error(`Unable to load image.`);
+      return;
+    }
+    setTasks([
+      ...tasks,
+      { content: content.trim(), done: false, color, id, imageurl }
+    ]);
+    setFormInput({ ...formInput, content: '', imageurl: '' });
   };
 
   const toggleTask = (id: string) => {
@@ -153,9 +164,27 @@ export const TodoList: FC = () => {
         <label htmlFor="image-url">Image URL (optional)</label>
         <input
           id="image-url"
+          ref={imageurlInput}
           type="url"
+          value={formInput.imageurl}
+          onChange={handleFormInputChange}
+          onKeyDown={e => {
+            if (e.key === 'Enter') {
+              e.preventDefault();
+              form.current.requestSubmit();
+            }
+          }}
+          name="imageurl"
           placeholder="Attach an image (url) to the task."
         />
+        {formInput.imageurl ? (
+          <PreviewImage
+            setIsImageUrlValid={setIsImageUrlValid}
+            imageurl={formInput.imageurl}
+          ></PreviewImage>
+        ) : (
+          <></>
+        )}
         <div className="controls">
           <div className="color-selection">
             {colorOptions.map(color => {

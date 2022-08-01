@@ -1,4 +1,5 @@
 import { FC } from 'react';
+import { ToastContainer } from 'react-toastify';
 import { TodoList } from './components/TodoList';
 
 const keybinds: {
@@ -44,6 +45,16 @@ const keybinds: {
 export const App: FC = () => {
   return (
     <>
+      <ToastContainer
+        position="top-center"
+        autoClose={1500}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        pauseOnFocusLoss={false}
+        draggable={false}
+        pauseOnHover
+      />
       <header>
         <h1>todo list</h1>
       </header>

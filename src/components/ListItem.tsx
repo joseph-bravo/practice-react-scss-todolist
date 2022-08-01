@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import { Todo } from '../lib/types';
+import { PreviewImage } from './PreviewImage';
 
 function addBreaks(string: string) {
   const split = string.split('\n');
@@ -24,7 +25,7 @@ export function ListItem(props: {
   handleKeyDown: any;
 }) {
   const {
-    todo: { id, done, content, color },
+    todo: { id, done, content, color, imageurl },
     toggleTask,
     deleteTask,
     dragDisabled,
@@ -38,7 +39,10 @@ export function ListItem(props: {
           className={`fa-regular ${done ? 'fa-circle-check' : 'fa-circle'}`}
         ></i>
       </button>
-      <span className={`content ${done ? 'done' : ''}`}>{text}</span>
+      <div className={`content ${done ? 'done' : ''}`}>
+        <div className="text">{text}</div>
+        {imageurl ? <img src={imageurl} /> : <></>}
+      </div>
       <button tabIndex={-1} className="delete" onClick={() => deleteTask(id)}>
         <i className="fa-solid fa-trash-can"></i>
       </button>
