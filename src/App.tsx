@@ -129,7 +129,7 @@ export const App: FC = props => {
               animation={200}
               list={tasks as any}
               setList={setTasks as any}
-              disabled={currentView !== 'all' || query ? true : false}
+              disabled={currentView !== 'all' || query.trim() === ''}
               handle={'.handle'}
             >
               {currentVisibleTasks.map(todo => (
@@ -138,7 +138,7 @@ export const App: FC = props => {
                   todo={todo}
                   toggleTask={toggleTask}
                   deleteTask={deleteTask}
-                  dragDisabled={currentView !== 'all' || query ? true : false}
+                  dragDisabled={currentView !== 'all' || query.trim() === ''}
                 />
               ))}
             </ReactSortable>
