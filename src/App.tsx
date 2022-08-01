@@ -38,6 +38,7 @@ export const App: FC = props => {
   }, [tasks, query, currentView]);
 
   const form = useRef(null);
+  const textarea = useRef(null);
   const formSchema = { content: '', color: 'neutral' };
   const [formInput, setFormInput] = useState(formSchema);
 
@@ -50,7 +51,7 @@ export const App: FC = props => {
     const { content, color } = formInput;
     const id = uuidv4();
     setTasks([...tasks, { content: content.trim(), done: false, color, id }]);
-    setFormInput(formSchema);
+    setFormInput({ ...formInput, content: '' });
   };
 
   const toggleTask = (id: string) => {
@@ -95,6 +96,7 @@ export const App: FC = props => {
               }}
               name="content"
               placeholder="What needs to be done? (CTRL + Enter to add)"
+              ref={textarea}
             />
             <div className="controls">
               <div className="color-selection">
@@ -107,6 +109,7 @@ export const App: FC = props => {
                         handleFormInputChange({
                           target: { name: 'color', value: color }
                         });
+                        textarea.current.focus();
                       }}
                       name="color"
                       value={color}
@@ -126,7 +129,7 @@ export const App: FC = props => {
               animation={200}
               list={tasks as any}
               setList={setTasks as any}
-              disabled={currentView !== 'all'}
+              disabled={currentView !== 'all' || query ? true : false}
               handle={'.handle'}
             >
               {currentVisibleTasks.map(todo => (
@@ -135,7 +138,7 @@ export const App: FC = props => {
                   todo={todo}
                   toggleTask={toggleTask}
                   deleteTask={deleteTask}
-                  dragDisabled={currentView !== 'all'}
+                  dragDisabled={currentView !== 'all' || query ? true : false}
                 />
               ))}
             </ReactSortable>
