@@ -1,4 +1,4 @@
-import { KeyboardEventHandler, useMemo } from 'react';
+import { useMemo } from 'react';
 import { Todo } from '../lib/types';
 
 function addBreaks(string: string) {
