@@ -12,6 +12,7 @@ $green-darker: hsl(134, 100%, 80%);
 $blue: hsl(195, 100%, 95%);
 $blue-darker: hsl(195, 100%, 80%);
 $neutral: hsl(0, 0%, 95%);
+$neutral-lighter: hsl(0, 0%, 99%);
 $neutral-darker: hsl(0, 0%, 80%);
 
 $box-btn-bg: hsl(0, 0%, 30%);
@@ -30,6 +31,7 @@ $box-btn-selected-content: hsl(0, 0%, 15%);
 }
 
 body {
+  padding-bottom: 8rem;
   background: $background;
 }
 
@@ -50,6 +52,14 @@ button {
   color: $box-btn-selected-content;
 }
 
+@mixin content-card {
+  max-width: 640px;
+  margin: auto;
+  padding: 3rem 2rem;
+  border-radius: 1rem;
+  background: white;
+}
+
 header {
   padding: 2rem;
 
@@ -64,12 +74,49 @@ main {
   padding: 0 2rem 1rem;
 }
 
+footer {
+  @include content-card();
+  h2 {
+    font-size: xx-large;
+    font-weight: normal;
+  }
+  h3 {
+    padding-top: 2rem;
+    padding-bottom: 0.5rem;
+    font-size: x-large;
+  }
+  ul {
+    padding: 1rem 0;
+    border-radius: 1rem;
+    li {
+      padding: 1rem;
+      background: $neutral-lighter;
+      &:nth-child(odd) {
+        background: $neutral;
+      }
+      h4 {
+        padding-bottom: 0.25rem;
+        font-family: monospace;
+        font-size: x-large;
+      }
+    }
+    > :first-child {
+      border-radius: 1rem 1rem 0 0;
+    }
+    > :last-child {
+      border-radius: 0 0 1rem 1rem;
+    }
+  }
+  .note {
+    h2 {
+      padding: 0.5rem 0;
+      font-size: x-large;
+    }
+  }
+}
+
 .main-card {
-  max-width: 640px;
-  margin: auto;
-  padding: 3rem 2rem;
-  border-radius: 1rem;
-  background: white;
+  @include content-card();
 
   form {
     textarea {
@@ -151,6 +198,10 @@ main {
         .content {
           margin: auto;
         }
+      }
+
+      &:focus {
+        outline: solid 0.5px $selected;
       }
 
       &:focus-visible {

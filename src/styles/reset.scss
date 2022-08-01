@@ -1,12 +1,17 @@
-:root,
-textarea {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
 button {
   all: unset;
   cursor: pointer;
   user-select: none;
+}
+
+ul,
+li {
+  display: block;
+}
+
+:root,
+textarea {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 * {

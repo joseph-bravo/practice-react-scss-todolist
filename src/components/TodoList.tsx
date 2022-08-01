@@ -94,6 +94,7 @@ export const TodoList: FC = () => {
     }
 
     if (e.key === 'ArrowDown' && itemIndex !== tasks.length - 1) {
+      e.preventDefault();
       if (currentView !== 'all' || query.trim() !== '') return;
       const newArray = shiftArray(tasks, itemIndex, 1);
       setTasks(newArray);
@@ -101,6 +102,7 @@ export const TodoList: FC = () => {
     }
 
     if (e.key === 'ArrowUp' && itemIndex !== 0) {
+      e.preventDefault();
       if (currentView !== 'all' || query.trim() !== '') return;
       const newArray = shiftArray(tasks, itemIndex, -1);
       setTasks(newArray);
