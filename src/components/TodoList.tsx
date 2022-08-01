@@ -14,7 +14,7 @@ const localStorageKey = 'focus360challenge-tasks';
 const colorOptions = ['red', 'green', 'blue', 'neutral'];
 const formSchema = { content: '', color: 'neutral', imageurl: '' };
 
-export const TodoList: FC = () => {
+export function TodoList() {
   const [tasks, setTasks] = useLocalStorage<Todo[]>(
     localStorageKey,
     defaultTodos
@@ -280,4 +280,4 @@ export const TodoList: FC = () => {
       </div>
     </div>
   );
-};
+}

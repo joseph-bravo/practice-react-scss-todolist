@@ -42,7 +42,7 @@ const keybinds: {
   }
 ];
 
-export const App: FC = () => {
+export function App() {
   return (
     <>
       <ToastContainer
@@ -89,4 +89,4 @@ export const App: FC = () => {
       </footer>
     </>
   );
-};
+}

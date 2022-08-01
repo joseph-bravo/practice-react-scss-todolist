@@ -1,6 +1,5 @@
 import { useMemo } from 'react';
 import { Todo } from '../lib/types';
-import { PreviewImage } from './PreviewImage';
 
 function addBreaks(string: string) {
   const split = string.split('\n');
