@@ -132,7 +132,9 @@ export const TodoList: FC = () => {
         onSubmit={handleSubmit}
         ref={form}
       >
+        <label htmlFor="task-content">Content</label>
         <textarea
+          id="task-content"
           required
           value={formInput.content}
           onChange={handleFormInputChange}
@@ -145,8 +147,14 @@ export const TodoList: FC = () => {
             }
           }}
           name="content"
-          placeholder="What needs to be done? (Enter to Add, Shift + Enter for New Line)"
+          placeholder="What needs to be done?"
           ref={textarea}
+        />
+        <label htmlFor="image-url">Image URL (optional)</label>
+        <input
+          id="image-url"
+          type="url"
+          placeholder="Attach an image (url) to the task."
         />
         <div className="controls">
           <div className="color-selection">
@@ -201,7 +209,9 @@ export const TodoList: FC = () => {
         </ul>
       )}
 
+      <label htmlFor="search">Search</label>
       <input
+        id="search"
         type="text"
         className="search"
         value={query}

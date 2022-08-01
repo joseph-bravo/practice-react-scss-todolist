@@ -70,57 +70,35 @@ header {
   }
 }
 
-main {
+main,
+footer {
+  margin-bottom: 6rem;
   padding: 0 2rem 1rem;
 }
 
-footer {
+main .main-card {
   @include content-card();
-  h2 {
-    font-size: xx-large;
-    font-weight: normal;
-  }
-  h3 {
-    padding-top: 2rem;
-    padding-bottom: 0.5rem;
-    font-size: x-large;
-  }
-  ul {
-    padding: 1rem 0;
-    border-radius: 1rem;
-    li {
-      padding: 1rem;
-      background: $neutral-lighter;
-      &:nth-child(odd) {
-        background: $neutral;
-      }
-      h4 {
-        padding-bottom: 0.25rem;
-        font-family: monospace;
-        font-size: x-large;
-      }
-    }
-    > :first-child {
-      border-radius: 1rem 1rem 0 0;
-    }
-    > :last-child {
-      border-radius: 0 0 1rem 1rem;
-    }
-  }
-  .note {
-    h2 {
-      padding: 0.5rem 0;
-      font-size: x-large;
-    }
-  }
-}
 
-.main-card {
-  @include content-card();
+  label {
+    display: block;
+    margin-bottom: 0.5rem;
+  }
 
   form {
     textarea {
       @include textinput();
+    }
+
+    label {
+      &:not(:first-child) {
+        margin-top: 1rem;
+      }
+    }
+
+    input#image-url {
+      @include textinput();
+      padding: 0.75rem 1rem;
+      font-size: medium;
     }
 
     .controls {
@@ -306,6 +284,47 @@ footer {
       > :last-child {
         justify-self: end;
       }
+    }
+  }
+}
+
+footer {
+  @include content-card();
+  h2 {
+    font-size: xx-large;
+    font-weight: normal;
+  }
+  h3 {
+    padding-top: 2rem;
+    padding-bottom: 0.5rem;
+    font-size: x-large;
+  }
+  ul {
+    padding: 1rem 0;
+    border-radius: 1rem;
+    li {
+      padding: 1rem;
+      background: $neutral-lighter;
+      &:nth-child(odd) {
+        background: $neutral;
+      }
+      h4 {
+        padding-bottom: 0.25rem;
+        font-family: monospace;
+        font-size: x-large;
+      }
+    }
+    > :first-child {
+      border-radius: 1rem 1rem 0 0;
+    }
+    > :last-child {
+      border-radius: 0 0 1rem 1rem;
+    }
+  }
+  .note {
+    h2 {
+      padding: 0.5rem 0;
+      font-size: x-large;
     }
   }
 }
