@@ -1,14 +1,5 @@
 import { Todo, TodosView } from './lib/types';
-import {
-  FormEvent,
-  useRef,
-  useState,
-  useMemo,
-  FC,
-  useEffect,
-  FocusEvent,
-  KeyboardEventHandler
-} from 'react';
+import { FormEvent, useRef, useState, useMemo, FC } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { ReactSortable } from 'react-sortablejs';
 import { ListItem } from './components/ListItem';
