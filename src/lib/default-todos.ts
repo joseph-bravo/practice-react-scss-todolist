@@ -14,7 +14,7 @@ const dummyTodos: Todo[] = [
     done: true,
     color: 'blue',
     imageurl:
-      'https://media-exp1.licdn.com/dms/image/C4D0BAQFwyieXHb1o4g/company-logo_200_200/0/1519922086756?e=1667433600&v=beta&t=MK07Ic-zWD5wZChsoqmoVXUgJW1raPYi5dDAqJa9hvs'
+      'https://c.tenor.com/Z5wTNShAZnsAAAAC/cat-dance.gif'
   }
 ];
 

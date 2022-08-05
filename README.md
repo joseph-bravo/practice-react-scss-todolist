@@ -1,4 +1,4 @@
-# Frontend Technical Challenge for Focus 360
+# Technical Challenge
 
 ## A todo-list created in React with TypeScript and styled with SCSS to demonstrate technical skill.
 
@@ -47,4 +47,4 @@
 - Use `npm test` to run test scripts.
 - Use `npm run test:watch` in a separate terminal to run tests upon file save.
 
-NOTE: `/demo` has the pre-built site for local previewing via local server 
+NOTE: `/docs` has the pre-built site for local previewing via local server or through GitHub Pages.
